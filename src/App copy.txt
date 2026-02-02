@@ -1,0 +1,129 @@
+import './App.css';
+import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
+import { PageLogin } from './pages/auth/PageLogin';
+import Header from './components/Header/Header';
+import Drawer from './components/Drawer/Drawer';
+import { gameDevMenuConfig } from './data/menuData';
+import PageNewCourse from './pages/courses/PageNewCourse';
+import PageProducts from './pages/products/PageProducts';
+import PageNewProduct from './pages/products/PageNewProduct';
+import PageCategories from './pages/categories/PageCategories';
+import PageCategoryForm from './pages/categories/PageCategoryForm';
+import PageTags from './pages/tags/PageTags';
+import PageTagForm from './pages/tags/PageTagForm';
+import PageSoftwares from './pages/softwares/PageSoftwares';
+import PageSoftwareForm from './pages/softwares/PageSoftwareForm';
+import PageInstructors from './pages/instructors/PageInstructors';
+import PageInstructorForm from './pages/instructors/PageInstructorForm';
+import PageBadges from './pages/badges/PageBadges';
+import PageBadgeForm from './pages/badges/PageBadgeForm';
+import PageCornerBadges from './pages/corner_badges/PageCornerBadges';
+import PageCornerBadgeForm from './pages/corner_badges/PageCornerBadgeForm';
+import PageArticles from './pages/articles/PageArticles';
+import PageArticleForm from './pages/articles/PageArticleForm';
+import { PageBundles } from './pages/bundles/PageBundles';
+import { PageBundleForm } from './pages/bundles/PageBundleForm';
+import PageNewAsset from './pages/assets/PageNewAsset';
+const Home = () => <h1>Home</h1>;
+const Usuarios = () => <h1>Usuários</h1>;
+
+function AppContent() {
+  const [drawerOpen, setDrawerOpen] = useState(true);
+
+  return (
+    <div className="app-layout">
+      <Drawer 
+        config={gameDevMenuConfig}
+        isOpen={drawerOpen} 
+        onClose={() => setDrawerOpen(!drawerOpen)}
+        defaultExpanded={['courses']}
+      />
+      
+      <div className="app-main">
+        <Header onMenuClick={() => setDrawerOpen(!drawerOpen)} />
+        
+        <main className="app-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/usuarios" element={<Usuarios />} />
+            
+            {/* Rotas de Produtos */}
+            <Route path="/produtos" element={<PageProducts />} />
+            <Route path="/produtos/novo" element={<PageNewProduct />} />
+            <Route path="/produtos/course/novo" element={<PageNewCourse />} />
+           <Route path="/produtos/course/:id/editar" element={<PageNewCourse />}/>
+
+            
+            {/* Rotas de Categorias (CRUD) */}
+            <Route path="/produtos/categorias" element={<PageCategories />} />
+            <Route path="/produtos/categorias/nova" element={<PageCategoryForm />} />
+            <Route path="/produtos/categorias/:id/editar" element={<PageCategoryForm />} />
+            
+            {/* Rotas de Tags (CRUD) */}
+            <Route path="/produtos/tags" element={<PageTags />} />
+            <Route path="/produtos/tags/nova" element={<PageTagForm />} />
+            <Route path="/produtos/tags/:id/editar" element={<PageTagForm />} />
+            
+            {/* Rotas de Softwares */}
+            <Route path="/produtos/softwares" element={<PageSoftwares />} />
+            <Route path="/produtos/softwares/novo" element={<PageSoftwareForm />} />
+            <Route path="/produtos/softwares/:id/editar" element={<PageSoftwareForm />} />
+            
+            {/* Rotas de Instrutores */}
+            <Route path="/usuarios/instrutores" element={<PageInstructors />} />
+            <Route path="/usuarios/instrutores/novo" element={<PageInstructorForm />} />
+            <Route path="/usuarios/instrutores/:id/editar" element={<PageInstructorForm />} />
+            {/*Rotas Badges */}
+             <Route path="/produtos/badges" element={<PageBadges />} />
+             <Route path="/produtos/badges/novo" element={<PageBadgeForm />} />
+            <Route path="/produtos/badges/:id/editar" element={<PageBadgeForm />} />
+
+            {/*Rotas Corner Badges */}
+             <Route path="/produtos/corner-badges" element={<PageCornerBadges />} />
+             <Route path="/produtos/corner-badges/novo" element={<PageCornerBadgeForm />} />
+            <Route path="/produtos/corner-badges/:id/editar" element={<PageCornerBadgeForm />} />
+            {/*Rotas Articles */} 
+            <Route path="/articles/article" element={<PageArticles />} />
+            <Route path="/articles/article/novo" element={<PageArticleForm   />} />
+            <Route path="/articles/article/:id/editar" element={<PageArticleForm />} />
+             {/*Rotas Bundles */}
+            <Route path="/produtos/bundle" element={<PageBundles />} />
+            <Route path="/produtos/bundle/novo" element={<PageBundleForm   />} />
+            <Route path="/produtos/bundle/:id/editar" element={<PageBundleForm />} />
+
+            {/* Rotas de Assets */}
+            <Route path="/produtos/assets" element={<PageNewAsset />} />
+            <Route path="/produtos/asset/novo" element={<PageNewAsset />} />
+            <Route path="/produtos/asset/:id/editar" element={<PageNewAsset />} />
+
+          </Routes>
+        </main>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          {/* Rota pública */}
+          <Route path="/login" element={<PageLogin />} />
+
+          {/* Rotas protegidas */}
+          <Route path="/*" element={
+            <PrivateRoute>
+              <AppContent />
+            </PrivateRoute>
+          } />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
+  );
+}
+
+export default App;

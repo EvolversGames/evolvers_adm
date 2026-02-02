@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pkill:*)",
+      "Bash(dir \"C:\\\\Evolvers_Projetos\\\\Sitema_Evolvers\\\\evolvers_api\\\\src\" /s /b)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(git stash:*)",
+      "WebFetch(domain:hotmart.com)",
+      "Bash(git mv:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+      "Bash(curl:*)",
+      "Bash(taskkill:*)",
+      "Bash(powershell -Command \"Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force\")",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nCorrigir case do arquivo apiErrorValidator.ts\n\nRenomear Apierrorvalidator.ts para apiErrorValidator.ts para\ncorrigir erro TS2307 no build em Linux \\(case-sensitive\\).\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(npx tsc:*)",
+      "Bash(git rm:*)",
+      "Bash(git commit:*)",
+      "Bash(git add:*)"
+    ],
+    "additionalDirectories": [
+      "C:\\Evolvers_Projetos\\Sitema_Evolvers\\evolvers_api"
+    ]
+  }
+}

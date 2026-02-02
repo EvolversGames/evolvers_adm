@@ -1,0 +1,28 @@
+/* App.css */
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin-left: 280px;
+  transition: margin-left 0.3s ease;
+}
+
+.app-content {
+  flex: 1;
+  padding: 2rem;
+  background-color: var(--bg-primary);
+}
+
+/* Responsivo - Mobile */
+@media (max-width: 1023px) {
+  .app-main {
+    margin-left: 0;
+  }
+}
