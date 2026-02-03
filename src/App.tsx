@@ -179,7 +179,28 @@ export default function App() {
             <Route path="email-marketing/:id" element={<PageEmailCampaignForm />} />
 
             {/* ✅ 404 dentro do painel */}
-            <Route path="*" element={<h1>404 - Página não encontrada</h1>} />
+            <Route path="*" element={
+              <div style={{
+                display: 'flex', flexDirection: 'column', alignItems: 'center',
+                justifyContent: 'center', minHeight: '60vh', textAlign: 'center',
+                color: 'var(--text-secondary, #94a3b8)', padding: '2rem',
+              }}>
+                <div style={{ fontSize: '4rem', marginBottom: '1rem', opacity: 0.4 }}>404</div>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-heading, #fff)', margin: '0 0 0.5rem' }}>
+                  Página não encontrada
+                </h2>
+                <p style={{ margin: '0 0 1.5rem', fontSize: '0.95rem' }}>
+                  A página que você procura não existe ou foi movida.
+                </p>
+                <a href="/" style={{
+                  padding: '0.75rem 1.5rem', backgroundColor: '#ff6600', color: '#fff',
+                  borderRadius: '0.5rem', textDecoration: 'none', fontWeight: 600,
+                  fontSize: '0.9rem', transition: 'opacity 0.2s',
+                }}>
+                  Voltar ao Dashboard
+                </a>
+              </div>
+            } />
           </Route>
 
           {/* ✅ 404 fora do painel */}

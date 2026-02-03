@@ -1,0 +1,42 @@
+/* PrivateRoute - Auth Gate */
+
+.auth-gate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #0f172a;
+}
+
+.auth-gate-card {
+  text-align: center;
+  padding: 3rem;
+}
+
+.auth-gate-card h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.5rem;
+}
+
+.auth-gate-card p {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Spinner */
+.auth-gate-spinner {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 1.5rem;
+  border: 3px solid #334155;
+  border-top-color: #ff6600;
+  border-radius: 50%;
+  animation: auth-spin 0.8s linear infinite;
+}
+
+@keyframes auth-spin {
+  to { transform: rotate(360deg); }
+}

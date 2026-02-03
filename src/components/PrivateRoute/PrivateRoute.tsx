@@ -3,6 +3,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import './PrivateRoute.css';
 
 interface PrivateRouteProps {
   children: React.ReactNode;
@@ -14,15 +15,12 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   // Enquanto valida o token, mostra loading
   if (isLoading) {
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        background: 'var(--bg-body, #222736)',
-        color: 'var(--text-primary, #aab8c5)'
-      }}>
-        Verificando autenticação...
+      <div className="auth-gate">
+        <div className="auth-gate-card">
+          <div className="auth-gate-spinner" />
+          <h2>Evolvers Admin</h2>
+          <p>Verificando autenticação...</p>
+        </div>
       </div>
     );
   }
