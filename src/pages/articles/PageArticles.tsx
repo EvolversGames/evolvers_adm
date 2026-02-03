@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useArticlesController } from './useArticlesController';
 import './articles.css';
 
-const ITEMS_PER_PAGE = 10;
+const PAGE_SIZE_OPTIONS = [5, 10, 20, 50];
 
 const PageArticles = () => {
   const { articles, loading, error, deleteArticle } = useArticlesController();
@@ -12,6 +12,7 @@ const PageArticles = () => {
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   // Filtros
   const [searchFilter, setSearchFilter] = useState('');
@@ -50,17 +51,17 @@ const PageArticles = () => {
     });
   }, [articles, searchFilter, categoryFilter, statusFilter]);
 
-  // Reset página ao mudar filtros
+  // Reset página ao mudar filtros ou quantidade por página
   useMemo(() => {
     setCurrentPage(1);
-  }, [searchFilter, categoryFilter, statusFilter]);
+  }, [searchFilter, categoryFilter, statusFilter, itemsPerPage]);
 
-  const totalPages = Math.ceil(filteredArticles.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
 
   const paginatedArticles = useMemo(() => {
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return filteredArticles.slice(start, start + ITEMS_PER_PAGE);
-  }, [filteredArticles, currentPage]);
+    const start = (currentPage - 1) * itemsPerPage;
+    return filteredArticles.slice(start, start + itemsPerPage);
+  }, [filteredArticles, currentPage, itemsPerPage]);
 
   const handleDelete = async (id: number) => {
     setDeleting(true);
@@ -283,37 +284,58 @@ const PageArticles = () => {
           </div>
 
           {/* Paginação */}
-          {totalPages > 1 && (
-            <div className="pagination">
-              <button
-                className="pagination-btn"
-                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
+          <div className="pagination-container">
+            <div className="pagination-per-page">
+              <label htmlFor="items-per-page">Exibir</label>
+              <select
+                id="items-per-page"
+                className="per-page-select"
+                value={itemsPerPage}
+                onChange={(e) => setItemsPerPage(Number(e.target.value))}
               >
-                Anterior
-              </button>
-
-              <div className="pagination-pages">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                  <button
-                    key={page}
-                    className={`pagination-page ${currentPage === page ? 'active' : ''}`}
-                    onClick={() => setCurrentPage(page)}
-                  >
-                    {page}
-                  </button>
+                {PAGE_SIZE_OPTIONS.map(size => (
+                  <option key={size} value={size}>{size}</option>
                 ))}
-              </div>
-
-              <button
-                className="pagination-btn"
-                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                disabled={currentPage === totalPages}
-              >
-                Próximo
-              </button>
+              </select>
+              <span>por página</span>
             </div>
-          )}
+
+            {totalPages > 1 && (
+              <div className="pagination">
+                <button
+                  className="pagination-btn"
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                >
+                  Anterior
+                </button>
+
+                <div className="pagination-pages">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                    <button
+                      key={page}
+                      className={`pagination-page ${currentPage === page ? 'active' : ''}`}
+                      onClick={() => setCurrentPage(page)}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  className="pagination-btn"
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                >
+                  Próximo
+                </button>
+              </div>
+            )}
+
+            <div className="pagination-info">
+              {((currentPage - 1) * itemsPerPage) + 1}–{Math.min(currentPage * itemsPerPage, filteredArticles.length)} de {filteredArticles.length}
+            </div>
+          </div>
         </>
       ) : !loading ? (
         /* Empty State */

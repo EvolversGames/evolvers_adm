@@ -2,7 +2,13 @@
 
 import { http } from '../../services/http/index';
 import { appConfig } from '../../config/app.config';
+import { authStorage } from '../auth/authStorage';
 import type { Bundle, CreateBundleData, UpdateBundleData, BundleFilters, BundlesResponse } from '../../domain/bundles/bundle_types';
+
+const authHeaders = (): HeadersInit => {
+  const token = authStorage.getToken();
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
 
 /**
  * Resposta padrão da API
@@ -133,6 +139,7 @@ export const bundlesApi = {
     const response = await fetch(`${API_BASE_URL}/uploads/bundles`, {
       method: 'POST',
       body: formData,
+      headers: authHeaders(),
     });
 
     if (!response.ok) {
